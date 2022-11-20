@@ -1,0 +1,22 @@
+//统一导入我们需要用的scss
+
+@import './common.scss';
+@import './variable.scss';
+
+//公共的管理表样式
+.topContent {
+    font-size: 16px;
+    font-weight: 600;
+    color: #008596;
+  }
+.findContent {
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+    .el-input {
+      width: 312px;
+    }
+}
+.tabContent {
+    margin-top: 20px;
+}

@@ -1,0 +1,17 @@
+// 定义我们全局需要使用到的scss变量
+$menuText: #bfcbd9;
+$menuActiveText: #ffffff;
+$subMenuActiveText: #f4f4f5;
+
+$menuBg: #304156;
+$menuHover: #263445;
+
+$subMenuBg: #1f2d3d;
+$subMenuHover: #001528;
+
+$sideBarWidth: var(--changeSidebar);
+$hideSideBarWidth: 66px;
+$sideBarDuration: 0.6s;
+:root{
+    --changeSidebar:210px
+}
