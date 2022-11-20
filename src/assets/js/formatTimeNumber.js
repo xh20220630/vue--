@@ -2,8 +2,7 @@
 
 export default (data)=>{
     //格式化成小时分钟的形式
-    let time = new Date(data);
-    const hour = ('0'+time.getHours()).slice(-2);
-    const minute = ('0'+time.getMinutes()).slice(-2);
-    return `${hour} : ${minute}`
+   let hour = data/60 < 10?'0'+data/60:data/60;
+   let minute = data%60 < 10 ?'0'+data%60:data%60;
+   return `${hour}:${minute}`
 }

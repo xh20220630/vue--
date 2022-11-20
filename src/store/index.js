@@ -6,7 +6,8 @@ import hamburger from './effect/hamburger'
 export default createStore({
   state:{
     //默认的静态资源请求路由
-    staticUrl:'http://localhost:6002'
+    staticUrl:'http://localhost:6002',
+    isExit:{value:false},
   },
  getters,
   modules: {

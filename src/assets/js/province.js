@@ -592,6 +592,5 @@ const Province=[
     })
     return obj
   })
-  console.log(newArr[0])
   //导出我们格式化的城市数组
   export default newArr;

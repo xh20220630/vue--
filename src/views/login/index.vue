@@ -1,5 +1,5 @@
 <template>
-  <div class="Login">
+  <div class="Login" :style="imageBgc">
     <!-- 使用element-puls搭建一个前端登录页面 -->
     <div class="loginContent">
       <div class="titleBox">
@@ -54,14 +54,14 @@
         <div class="forget">Forget Password?</div>
         <div class="connect">Contact Support</div>
         <div class="register">
-          <router-link to="/register">CREATE ACCOUNT</router-link>
+          <router-link @click="removeStore()" to="/register">CREATE ACCOUNT</router-link>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script  setup>
-import { computed, reactive, ref } from "vue";
+import { computed, reactive, ref,onMounted} from "vue";
 import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 // import {setLocalStorage} from "@/Storage"
@@ -70,6 +70,13 @@ import useStore from "@/store";
 //引入登录
 // import reqLogin from "@/reqApi/login"
 //data
+const imageBgc = ref({
+  "background" :  ''
+})
+//页面渲染就请求图片
+onMounted(()=>{
+  imageBgc.value.background = 'url("https://player.lzti.com/open/img/acg")';
+})
 const rulesForm = ref(null);
 const login = ref({
   username: "",
@@ -127,7 +134,12 @@ const Login = async () => {
   });
   if (statu) {
     //调用store中的登录请求方法
-    useStore.dispatch("userInfo/LoginFn", login.value);
+   await useStore.dispatch("userInfo/LoginFn", login.value);
+   useStore.state.isExit.value = !useStore.state.isExit.value;
+    //发起用户的消息请求
+    // setTimeout(()=>{
+    //   useStore.dispatch("userInfo/requestMessage");
+    // },500);
     //  const {data:resData} = await reqLogin(login.value);
     //  console.log(resData)
     //   if(resData.statu == 400){
@@ -150,7 +162,10 @@ const Login = async () => {
     // }
   }
 };
-
+router.afterEach(()=>{
+  //离开路由后
+   rulesForm.value.resetFields();
+})
 const openShow = () => {
   isShow.value = !isShow.value;
 };
@@ -160,6 +175,10 @@ const openHelpBox = () => {
 const closeHelpBox = ()=>{
    emergeHelpBox.value = false;
 }
+//清空本地的数据
+const removeStore = ()=>{
+  useStore.dispatch('userInfo/exitLoginFn');
+}
 </script>
 
 <style lang="scss" scoped>
@@ -167,6 +186,7 @@ const closeHelpBox = ()=>{
   width: 100%;
   height: 100%;
   position: absolute;
+  // background: url("https://player.lzti.com/open/img/acg");
   .loginContent {
     width: 322px;
     position: relative;

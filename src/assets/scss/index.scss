@@ -10,13 +10,71 @@
     color: #008596;
   }
 .findContent {
-    width: 70%;
+    width: 90%;
     display: flex;
+    margin-top: 20px;
     justify-content: space-between;
     .el-input {
       width: 312px;
     }
 }
 .tabContent {
-    margin-top: 20px;
+    margin-top: 10px;
+}
+
+
+//果冻动画的class名
+.anima_jelly:hover{
+  animation: anima_jelly 1s linear infinite;
+}
+//果冻的动画
+@keyframes anima_jelly {
+  0% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+  15% {
+    -webkit-transform: scale3d(1.25, 0.75, 1);
+    transform: scale3d(1.25, 0.75, 1);
+  }
+  20% {
+    -webkit-transform: scale3d(0.75, 1.25, 1);
+    transform: scale3d(0.75, 1.25, 1);
+  }
+  25% {
+    -webkit-transform: scale3d(1.15, 0.85, 1);
+    transform: scale3d(1.15, 0.85, 1);
+  }
+  32.5% {
+    -webkit-transform: scale3d(0.95, 1.05, 1);
+    transform: scale3d(0.95, 1.05, 1);
+  }
+  37.5% {
+    -webkit-transform: scale3d(1.05, 0.95, 1);
+    transform: scale3d(1.05, 0.95, 1);
+  }
+  50%,
+  100% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+.deleteAnnimation{
+  animation: deleteAnnimation 1.2s linear ;
+}
+//定义一个删除的动画
+@keyframes deleteAnnimation{
+  0%{
+    transform: translateX(0px) translateY(0px);
+    opacity: 1;
+  }
+  50%{
+    transform: translateX(200px) translateY(0px);
+    opacity: .5;
+  }
+  100%{
+    transform: translateX(240px) translateY(40px);
+    opacity: 0;
+  }
 }

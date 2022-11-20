@@ -24,10 +24,13 @@
 <script setup>
 import { ref, nextTick, onMounted, defineProps, computed, watch } from "vue";
 import {useRouter} from "vue-router"
+// 导入请求图片的方法
+import reqImage from "@/reqApi/reqImage";
 //ul的高度需要计算得出
 const contentRef = ref(null);
 const pullAllItemRef = ref(null);
 const props = defineProps(["activeName"]);
+console.log(props)
 const rowNum = ref(0); //一排的个数
 const colNum = ref(0); //有多少列
 const liList = ref([]);
@@ -36,24 +39,39 @@ const router = useRouter() //生成一个router对象
 const ulStyle = ref({
   width: "",
 });
+//自定义数据
+const imgArr = ref([]);
+//请求的数据添加到此
+const liArr = ref([]);
+onMounted(()=>{
+  //组件一加载就请求数据
+  reqImage().then((res)=>{
+      res.data.data.forEach(element => {
+          //获取每一张图片的路径，添加进数组
+          if(!element.hoverURL){
+            return
+          }
+          let imgSrc = element.hoverURL;
+          liArr.value.push(imgSrc);
+          imgArr.value.push(imgSrc);
+      });
+  })
+})
 //路由离开时触发
 router.afterEach(()=>{
-    console.log('我离开了');
+    // console.log('我离开了');
     //关闭window上的resize
-    window.removeEventListener('resize',resizeFn)
+    window.removeEventListener('resize',resizeFn);
 })
 //记录最小高度
 const minScorllHeight = ref(null);
-//自定义数据
-const liArr = ref([]);
-for (let i = 0; i < 18; i++) {
-  liArr.value.push(require(`@/assets/imgs/pb/P_0${("0" + i).slice(-2)}.jpg`));
-}
+// for (let i = 0; i < 18; i++) {
+//   liArr.value.push(require(`@/assets/imgs/pb/P_0${("0" + i).slice(-2)}.jpg`));
+// }
 const pullName = computed(() => {
   return props.activeName;
 });
 const handleLi = () => {
-  console.log("1111");
   nextTick(() => {
     rowNum.value = Math.floor(contentRef.value.clientWidth / 200);
     liList.value = pullAllItemRef.value.children;
@@ -120,15 +138,12 @@ watch(props, (newValue) => {
       let scrollHeight =
         pullAllItemRef.value.scrollTop + pullAllItemRef.value.clientHeight;
       let clientHeight = pullAllItemRef.value.clientHeight;
-      console.log(scrollHeight,minScorllHeight.value-292)
       if (scrollHeight > minScorllHeight.value - 292) {
         //达到需要加载的区域
         // console.log('到了')
-        for (let i = 0; i < 10; i++) {
-          liArr.value.push(
-            require(`@/assets/imgs/pb/P_0${("0" + i).slice(-2)}.jpg`)
-          );
-        }
+       imgArr.value.forEach((el)=>{
+        liArr.value.push(el);
+       })
         handleLi();
       }
     };
@@ -138,6 +153,7 @@ watch(props, (newValue) => {
     liArr.value=liArr.value.splice(0,20)
   }
 });
+
 </script>
 <style lang="scss" scoped>
 .pullAllItem {
@@ -152,6 +168,10 @@ watch(props, (newValue) => {
     width: 200px;
     float: left;
     position: static;
+    img{
+      width: 100%;
+      height: 100%;
+    }
   }
 }
 </style>

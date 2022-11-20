@@ -37,7 +37,7 @@ router.beforeEach((to, from, next) => {
                 //清除本地缓存
                 clearStorage();
                 //清除store的数据
-               cler()
+               cler();
                 //强制刷新一下
                 if (witeRouter.includes(to.fullPath)) {
                     //访问白名单
@@ -54,4 +54,5 @@ router.beforeEach((to, from, next) => {
 const cler = ()=>{
     store.commit('routerData/defaultRouterData')  
     store.state.userInfo.userInfo.userImg=""
+    store.state.userInfo.userInfo = {};
 }
